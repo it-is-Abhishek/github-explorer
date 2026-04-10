@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import HeroSection from './components/HeroSection';
 import SearchSection from './components/SearchSection';
 import UserProfile from './components/UserProfile';
@@ -12,6 +13,8 @@ import { searchUsers, getUserDetails, getUserRepos } from './services/githubApi'
 
 const GITHUB_SEARCH_LIMIT = 1000;
 const THEME_STORAGE_KEY = 'github-explorer-theme';
+const RECENT_SEARCHES_KEY = 'github-explorer-recent-searches';
+const REPO_BOOKMARKS_KEY = 'github-explorer-repo-bookmarks';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -28,6 +31,14 @@ function App() {
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const [repoData, setRepoData] = useState(null);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    const savedSearches = localStorage.getItem(RECENT_SEARCHES_KEY);
+    return savedSearches ? JSON.parse(savedSearches) : [];
+  });
+  const [bookmarkedRepos, setBookmarkedRepos] = useState(() => {
+    const savedBookmarks = localStorage.getItem(REPO_BOOKMARKS_KEY);
+    return savedBookmarks ? JSON.parse(savedBookmarks) : [];
+  });
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (savedTheme) return savedTheme;
@@ -41,6 +52,14 @@ function App() {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(recentSearches));
+  }, [recentSearches]);
+
+  useEffect(() => {
+    localStorage.setItem(REPO_BOOKMARKS_KEY, JSON.stringify(bookmarkedRepos));
+  }, [bookmarkedRepos]);
 
   // Effect for debounced search
   useEffect(() => {
@@ -61,6 +80,16 @@ function App() {
         const { items, total } = await searchUsers(debouncedQuery, 1);
         setSearchResults(items);
         setTotalUsers(total);
+        setRecentSearches((current) => {
+          const normalizedQuery = debouncedQuery.trim();
+          if (!normalizedQuery) return current;
+
+          const nextSearches = current.filter(
+            (searchTerm) => searchTerm.toLowerCase() !== normalizedQuery.toLowerCase(),
+          );
+
+          return [normalizedQuery, ...nextSearches].slice(0, 6);
+        });
       } catch (err) {
         setSearchError(err.message || 'Failed to search users.');
       } finally {
@@ -121,6 +150,44 @@ function App() {
     setHasSearched(Boolean(lastSearchQuery.trim()));
   };
 
+  const handleGoHome = () => {
+    setQuery('');
+    setSearchResults([]);
+    setLastSearchQuery('');
+    setTotalUsers(0);
+    setPage(1);
+    setIsLoadingMore(false);
+    setSearchError(null);
+    setIsProfileLoading(false);
+    setUserData(null);
+    setRepoData(null);
+    setHasSearched(false);
+  };
+
+  const handleToggleBookmark = (repo) => {
+    setBookmarkedRepos((current) => {
+      const exists = current.some((savedRepo) => savedRepo.id === repo.id);
+
+      if (exists) {
+        return current.filter((savedRepo) => savedRepo.id !== repo.id);
+      }
+
+      return [
+        {
+          id: repo.id,
+          name: repo.name,
+          html_url: repo.html_url,
+          description: repo.description,
+          stargazers_count: repo.stargazers_count,
+          forks_count: repo.forks_count,
+          language: repo.language,
+          owner: repo.owner,
+        },
+        ...current,
+      ];
+    });
+  };
+
   const accessibleTotalUsers = Math.min(totalUsers, GITHUB_SEARCH_LIMIT);
   const hasMoreUsers = searchResults.length < accessibleTotalUsers;
 
@@ -128,6 +195,7 @@ function App() {
     <div className="min-h-screen mb-20 relative">
       <Navbar
         theme={theme}
+        onHome={handleGoHome}
         onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))}
       />
       
@@ -144,9 +212,9 @@ function App() {
           query={query}
           setQuery={setQuery}
           isSearching={isSearching}
-          searchResults={searchResults}
-          onSelectUser={handleSelectUser}
-          error={searchError}
+          recentSearches={recentSearches}
+          onRecentSearchClick={setQuery}
+          onClearRecentSearches={() => setRecentSearches([])}
         />
       </div>
 
@@ -191,11 +259,34 @@ function App() {
             
             {/* Main Content / Repositories */}
             <div className="w-full lg:w-2/3 xl:w-3/4">
-              {isProfileLoading ? <RepoSkeletonGrid /> : <RepoGrid repos={repoData} />}
+              {isProfileLoading ? (
+                <RepoSkeletonGrid />
+              ) : (
+                <RepoGrid
+                  repos={repoData}
+                  bookmarkedRepos={bookmarkedRepos}
+                  onToggleBookmark={handleToggleBookmark}
+                />
+              )}
             </div>
           </div>
         </div>
       )}
+
+      {bookmarkedRepos.length > 0 && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 relative z-10 transition-all duration-500">
+          <RepoGrid
+            repos={bookmarkedRepos}
+            title="Saved Repositories"
+            badgeText={`${bookmarkedRepos.length} Saved`}
+            emptyMessage="You have not bookmarked any repositories yet."
+            bookmarkedRepos={bookmarkedRepos}
+            onToggleBookmark={handleToggleBookmark}
+          />
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 }

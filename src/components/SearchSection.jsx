@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const SearchSection = ({ query, setQuery, isSearching, searchResults, onSelectUser, error }) => {
+const SearchSection = ({
+  query,
+  setQuery,
+  isSearching,
+  recentSearches,
+  onRecentSearchClick,
+  onClearRecentSearches,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e) => {
@@ -37,6 +44,29 @@ const SearchSection = ({ query, setQuery, isSearching, searchResults, onSelectUs
           />
         </div>
       </motion.form>
+
+      {recentSearches.length > 0 ? (
+        <div className="mt-4 flex flex-wrap items-center gap-3 px-2">
+          <span className="theme-text-muted text-sm">Recent searches</span>
+          {recentSearches.map((searchTerm) => (
+            <button
+              key={searchTerm}
+              type="button"
+              onClick={() => onRecentSearchClick(searchTerm)}
+              className="search-chip"
+            >
+              {searchTerm}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={onClearRecentSearches}
+            className="search-chip search-chip-clear"
+          >
+            Clear
+          </button>
+        </div>
+      ) : null}
 
       {/* Decorative Blocks around search */}
       <div className="absolute -top-4 -right-8 w-8 h-8 bg-brand-neon-blue/20 border border-brand-neon-blue/50 rounded minecraft-corners rotate-12 -z-10 animate-float"></div>

@@ -2,12 +2,17 @@ import React from 'react';
 import { Box, Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Navbar = ({ theme, onToggleTheme }) => {
+const Navbar = ({ theme, onHome, onToggleTheme }) => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 glass-panel-heavy border-b-0 rounded-none shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onHome}
+            className="flex items-center gap-3 navbar-home"
+            aria-label="Go to home dashboard"
+          >
             <motion.div 
               whileHover={{ rotate: 15, scale: 1.1 }}
               className="bg-brand-neon-purple p-2 rounded-md minecraft-corners shadow-[2px_2px_0_#9d4edd]"
@@ -17,7 +22,7 @@ const Navbar = ({ theme, onToggleTheme }) => {
             <span className="theme-text-primary font-bold text-xl tracking-tight flex items-center gap-1">
               Git<span className="text-brand-neon-blue">Block</span> <Box className="w-4 h-4 text-brand-neon-blue inline-block mb-1" />
             </span>
-          </div>
+          </button>
 
           <motion.button
             type="button"

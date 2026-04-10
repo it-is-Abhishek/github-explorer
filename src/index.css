@@ -127,6 +127,14 @@
     box-shadow: 0 10px 30px -18px var(--theme-shadow);
   }
 
+  .navbar-home {
+    transition: transform 0.2s ease;
+  }
+
+  .navbar-home:hover {
+    transform: translateY(-1px);
+  }
+
   .back-button {
     display: inline-flex;
     align-items: center;
@@ -143,6 +151,83 @@
   .back-button:hover {
     transform: translateY(-1px);
     border-color: var(--color-brand-neon-blue);
+  }
+
+  .search-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: var(--theme-card);
+    color: var(--theme-text);
+    border: 1px solid var(--theme-border);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .search-chip:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-brand-neon-blue);
+  }
+
+  .search-chip-clear {
+    color: var(--theme-text-muted);
+  }
+
+  .bookmark-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid var(--theme-border);
+    color: var(--theme-text-muted);
+    background: var(--theme-card);
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .bookmark-toggle:hover {
+    transform: translateY(-1px);
+    color: var(--color-brand-neon-purple);
+    border-color: var(--color-brand-neon-purple);
+  }
+
+  .bookmark-toggle-active {
+    color: var(--color-brand-neon-purple);
+    border-color: var(--color-brand-neon-purple);
+    background: color-mix(in srgb, var(--color-brand-neon-purple) 14%, transparent);
+  }
+
+  .footer-link {
+    color: var(--theme-text-muted);
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-brand-neon-blue);
+  }
+
+  .footer-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+  }
+
+  .footer-copy {
+    max-width: 32rem;
+    margin-top: 0.2rem;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .theme-input {
@@ -190,6 +275,19 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  @media (max-width: 640px) {
+    .footer-shell {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+
+    .footer-links {
+      width: 100%;
+      justify-content: flex-start;
+    }
   }
   
   /* Voxel / Minecraft style block effects */

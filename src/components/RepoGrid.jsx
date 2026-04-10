@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Star, GitFork, Circle, ExternalLink, Filter } from 'lucide-react';
+import { Star, GitFork, Circle, ExternalLink, Filter, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const getLanguageColor = (lang) => {
@@ -17,7 +17,7 @@ const getLanguageColor = (lang) => {
   return colors[lang] || 'bg-slate-400';
 };
 
-const RepoCard = ({ repo, index }) => {
+const RepoCard = ({ repo, index, isBookmarked, onToggleBookmark }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,6 +35,14 @@ const RepoCard = ({ repo, index }) => {
             <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
         </h3>
+        <button
+          type="button"
+          onClick={() => onToggleBookmark(repo)}
+          className={`bookmark-toggle ${isBookmarked ? 'bookmark-toggle-active' : ''}`}
+          aria-label={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
+        >
+          <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
+        </button>
       </div>
       
       <p className="theme-text-muted text-sm mb-4 flex-grow line-clamp-3">
@@ -64,7 +72,14 @@ const RepoCard = ({ repo, index }) => {
   );
 };
 
-const RepoGrid = ({ repos }) => {
+const RepoGrid = ({
+  repos,
+  title = 'Repositories',
+  badgeText,
+  emptyMessage = "This user hasn't created any public repositories yet.",
+  bookmarkedRepos = [],
+  onToggleBookmark,
+}) => {
   const [sortBy, setSortBy] = useState('stars');
   const [filterLang, setFilterLang] = useState('All');
 
@@ -99,7 +114,7 @@ const RepoGrid = ({ repos }) => {
       <div className="glass-panel theme-text-muted w-full h-64 flex flex-col items-center justify-center text-center p-8 minecraft-corners border-dashed border-2 theme-card-border">
         <div className="w-16 h-16 mb-4 opacity-20 bg-slate-500 rounded-lg minecraft-corners rotate-12"></div>
         <h3 className="theme-text-primary text-xl font-bold mb-2">No Repositories Found</h3>
-        <p>This user hasn't created any public repositories yet.</p>
+        <p>{emptyMessage}</p>
       </div>
     );
   }
@@ -110,10 +125,10 @@ const RepoGrid = ({ repos }) => {
         <div className="flex items-center gap-3">
           <h2 className="theme-text-primary text-2xl font-bold flex items-center gap-2">
             <span className="w-3 h-3 bg-brand-neon-blue rounded-sm block shadow-[0_0_8px_rgba(14,165,233,0.8)]"></span>
-            Repositories
+            {title}
           </h2>
           <span className="theme-badge text-xs px-2 py-1 rounded-md font-mono">
-            {repos.length} Public
+            {badgeText || `${repos.length} Public`}
           </span>
         </div>
         
@@ -153,7 +168,13 @@ const RepoGrid = ({ repos }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 text-left gap-6">
           {filteredAndSortedRepos.map((repo, i) => (
-            <RepoCard key={repo.id} repo={repo} index={i} />
+            <RepoCard
+              key={repo.id}
+              repo={repo}
+              index={i}
+              isBookmarked={bookmarkedRepos.some((savedRepo) => savedRepo.id === repo.id)}
+              onToggleBookmark={onToggleBookmark}
+            />
           ))}
         </div>
       )}
