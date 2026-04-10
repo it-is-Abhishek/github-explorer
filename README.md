@@ -107,7 +107,3 @@ src/
 - `npm run build` - create a production build
 - `npm run preview` - preview the production build
 - `npm run lint` - run ESLint
-
-## License
-
-This project is for learning and assignment use.

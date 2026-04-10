@@ -1,7 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const HeroSection = () => {
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
       {/* Decorative Blocks Background */}
@@ -15,11 +17,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel border-brand-neon-purple/30 text-brand-neon-purple text-sm font-semibold mb-6">
-            <span className="w-2 h-2 rounded-sm bg-brand-neon-purple animate-pulse"></span>
-            Voxel Explorer V1.0
-          </div>
-          
           <h1 className="theme-hero-title text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-sm tracking-tight">
             Explore GitHub <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon-blue via-sky-400 to-brand-neon-purple">Like Never Before</span>
@@ -29,22 +26,46 @@ const HeroSection = () => {
             A highly visual, block-inspired interface combining modern design with playful aesthetics. Traverse repositories with style.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex justify-center">
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="theme-panel-solid theme-text-primary px-8 py-3 text-lg font-bold rounded-lg minecraft-corners shadow-[4px_4px_0_var(--theme-shadow)] hover:shadow-[6px_6px_0_var(--theme-shadow)] transition-shadow border"
-            >
-              Get Started
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowDetails((current) => !current)}
               className="glass-panel theme-text-primary px-8 py-3 text-lg font-bold rounded-lg minecraft-corners hover:border-brand-neon-purple transition-all shadow-[4px_4px_0_rgba(139,92,246,0.3)]"
             >
-              Learn More
+              {showDetails ? 'Hide Details' : 'Learn More'}
             </motion.button>
           </div>
+
+          <AnimatePresence>
+            {showDetails ? (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 12 }}
+                transition={{ duration: 0.25 }}
+                className="glass-panel theme-text-soft mt-8 max-w-3xl mx-auto rounded-2xl p-6 text-left"
+              >
+                <h2 className="theme-text-primary text-2xl font-bold mb-3">
+                  What this website does
+                </h2>
+                <p className="mb-3">
+                  GitHub Explorer helps you search GitHub users, inspect their public
+                  profiles, and browse repositories in one dashboard.
+                </p>
+                <p className="mb-3">
+                  You can search users with debouncing, load more matching results,
+                  open a user profile, sort repositories by stars or forks, and
+                  filter repositories by programming language.
+                </p>
+                <p>
+                  The dashboard also includes light and dark theme switching, plus a
+                  back action so you can return to the search results after opening a
+                  profile.
+                </p>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </motion.div>
       </div>
     </div>
