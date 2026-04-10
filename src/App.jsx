@@ -146,8 +146,13 @@ function App() {
     setRepoData(null);
     setIsProfileLoading(false);
     setSearchError(null);
-    setQuery(lastSearchQuery);
-    setHasSearched(Boolean(lastSearchQuery.trim()));
+    setQuery('');
+    setSearchResults([]);
+    setLastSearchQuery('');
+    setTotalUsers(0);
+    setPage(1);
+    setIsLoadingMore(false);
+    setHasSearched(false);
   };
 
   const handleGoHome = () => {
