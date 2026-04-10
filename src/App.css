@@ -1,0 +1,250 @@
+.app-shell {
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+}
+
+.hero-panel {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(232, 122, 65, 0.18), transparent 30%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.08));
+  text-align: left;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-copy {
+  max-width: 60ch;
+  margin-bottom: 24px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.panel {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--panel);
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.panel-heading span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.panel-heading-stack {
+  align-items: flex-start;
+}
+
+.search-bar {
+  display: grid;
+  gap: 10px;
+}
+
+.search-label,
+.filter-control span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.search-bar input,
+.filter-control select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-h);
+  padding: 14px 16px;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.search-bar input:focus,
+.filter-control select:focus {
+  outline: 2px solid var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.user-grid,
+.repo-list {
+  display: grid;
+  gap: 14px;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.user-card:hover,
+.user-card.active {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  background: var(--surface-strong);
+}
+
+.user-card img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  color: var(--text-h);
+  font-weight: 700;
+}
+
+.user-link {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.repo-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.repo-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.repo-card h3 {
+  margin: 0 0 8px;
+  color: var(--text-h);
+  font-size: 1.1rem;
+}
+
+.repo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.bookmark-button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-h);
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bookmark-button.saved {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.load-more-button {
+  width: 100%;
+  margin-top: 14px;
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  background: var(--accent-soft);
+  color: var(--text-h);
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.load-more-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.filter-control {
+  display: grid;
+  gap: 8px;
+  min-width: 160px;
+}
+
+.status {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.status.error {
+  color: var(--error);
+}
+
+.bookmarks-panel {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 20px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-panel,
+  .panel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .panel-heading,
+  .repo-card-top {
+    flex-direction: column;
+  }
+
+  .filter-control {
+    width: 100%;
+  }
+}

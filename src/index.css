@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-neon-blue: #0ea5e9;
+  --color-brand-neon-purple: #8b5cf6;
+  --color-brand-neon-green: #22c55e;
+  --color-brand-dark-base: #020617;
+  --color-brand-glass: rgba(30, 41, 59, 0.7);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-dark-base);
+    color: #e2e8f0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15), transparent 25%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background-color: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    border-radius: 0.75rem;
+  }
+  
+  .glass-panel-heavy {
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  
+  /* Voxel / Minecraft style block effects */
+  .minecraft-corners {
+    clip-path: polygon(
+      0px 4px,
+      4px 4px,
+      4px 0px,
+      calc(100% - 4px) 0px,
+      calc(100% - 4px) 4px,
+      100% 4px,
+      100% calc(100% - 4px),
+      calc(100% - 4px) calc(100% - 4px),
+      calc(100% - 4px) 100%,
+      4px 100%,
+      4px calc(100% - 4px),
+      0px calc(100% - 4px)
+    );
+  }
+  
+  .voxel-shadow {
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+  }
+  
+  .voxel-shadow:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6), 8px 8px 0 var(--color-brand-neon-blue);
+  }
+
+  .voxel-shadow-purple:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6), 8px 8px 0 var(--color-brand-neon-purple);
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delayed {
+    animation: float 7s ease-in-out infinite 2s;
+  }
+  
+  .animate-float-slow {
+    animation: float 9s ease-in-out infinite 1s;
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(30,41,59,0.7) 25%, rgba(71,85,105,0.7) 50%, rgba(30,41,59,0.7) 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Scrollbar styles to match */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-brand-dark-base); 
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-neon-purple); 
+}
