@@ -20,12 +20,12 @@ const HeroSection = () => {
             Voxel Explorer V1.0
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-6 drop-shadow-sm tracking-tight">
+          <h1 className="theme-hero-title text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-sm tracking-tight">
             Explore GitHub <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon-blue via-sky-400 to-brand-neon-purple">Like Never Before</span>
           </h1>
           
-          <p className="mt-4 text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+          <p className="theme-text-muted mt-4 text-xl max-w-2xl mx-auto mb-10">
             A highly visual, block-inspired interface combining modern design with playful aesthetics. Traverse repositories with style.
           </p>
 
@@ -33,14 +33,14 @@ const HeroSection = () => {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-slate-900 px-8 py-3 text-lg font-bold rounded-lg minecraft-corners shadow-[4px_4px_0_#94a3b8] hover:shadow-[6px_6px_0_#cbd5e1] transition-shadow"
+              className="theme-panel-solid theme-text-primary px-8 py-3 text-lg font-bold rounded-lg minecraft-corners shadow-[4px_4px_0_var(--theme-shadow)] hover:shadow-[6px_6px_0_var(--theme-shadow)] transition-shadow border"
             >
               Get Started
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="glass-panel text-white px-8 py-3 text-lg font-bold rounded-lg minecraft-corners border-slate-600 hover:border-brand-neon-purple transition-all shadow-[4px_4px_0_rgba(139,92,246,0.3)]"
+              className="glass-panel theme-text-primary px-8 py-3 text-lg font-bold rounded-lg minecraft-corners hover:border-brand-neon-purple transition-all shadow-[4px_4px_0_rgba(139,92,246,0.3)]"
             >
               Learn More
             </motion.button>

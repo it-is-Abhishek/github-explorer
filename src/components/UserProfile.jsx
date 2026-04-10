@@ -3,11 +3,11 @@ import { MapPin, Link as LinkIcon, Users, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const StatBlock = ({ label, value, color }) => (
-  <div className={`p-3 rounded-lg border border-slate-700/50 bg-slate-800/50 minecraft-corners flex flex-col items-center justify-center voxel-shadow shadow-slate-900/50 relative overflow-hidden group`}>
+  <div className="theme-panel-solid p-3 rounded-lg border minecraft-corners flex flex-col items-center justify-center voxel-shadow relative overflow-hidden group">
     {/* Hover highlight effect */}
     <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity bg-gradient-to-b ${color}`}></div>
-    <span className="text-xl font-black text-white z-10">{value}</span>
-    <span className="text-xs text-slate-400 font-medium uppercase tracking-wider z-10">{label}</span>
+    <span className="theme-text-primary text-xl font-black z-10">{value}</span>
+    <span className="theme-text-muted text-xs font-medium uppercase tracking-wider z-10">{label}</span>
   </div>
 );
 
@@ -33,11 +33,11 @@ const UserProfile = ({ user }) => {
             <div className="absolute bottom-1 right-1 w-5 h-5 bg-brand-neon-green rounded-sm border-2 border-slate-900 z-20 minecraft-corners shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
           </div>
           
-          <h2 className="mt-4 text-2xl font-bold text-white">{user.name || user.login}</h2>
+          <h2 className="theme-text-primary mt-4 text-2xl font-bold">{user.name || user.login}</h2>
           <p className="text-brand-neon-blue font-mono text-sm mb-4">@{user.login}</p>
           
           {user.bio && (
-            <p className="text-slate-300 text-sm mb-6 leading-relaxed max-w-xs">{user.bio}</p>
+            <p className="theme-text-soft text-sm mb-6 leading-relaxed max-w-xs">{user.bio}</p>
           )}
 
           <div className="w-full grid grid-cols-3 gap-3 mb-6">
@@ -46,7 +46,7 @@ const UserProfile = ({ user }) => {
             <StatBlock label="Following" value={user.following} color="from-brand-neon-green to-transparent" />
           </div>
 
-          <div className="w-full space-y-3 text-sm text-slate-400 text-left bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+          <div className="theme-panel-solid theme-text-muted w-full space-y-3 text-sm text-left p-4 rounded-xl border">
             {user.location && (
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-brand-neon-orange" />

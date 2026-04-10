@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const SearchSection = ({ query, setQuery, isSearching, searchResults, onSelectUser, error }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -23,7 +23,7 @@ const SearchSection = ({ query, setQuery, isSearching, searchResults, onSelectUs
             {isSearching ? (
               <Loader2 className="w-6 h-6 text-brand-neon-blue animate-spin" />
             ) : (
-              <Search className={`w-6 h-6 transition-colors ${isFocused ? 'text-brand-neon-blue' : 'text-slate-400'}`} />
+              <Search className={`w-6 h-6 transition-colors ${isFocused ? 'text-brand-neon-blue' : 'theme-text-muted'}`} />
             )}
           </div>
           <input
@@ -33,7 +33,7 @@ const SearchSection = ({ query, setQuery, isSearching, searchResults, onSelectUs
             onFocus={() => setIsFocused(true)}
             onBlur={() => setTimeout(() => setIsFocused(false), 200)} // delay blur to allow clicks
             placeholder="Search GitHub users..."
-            className="flex-1 bg-transparent border-none text-white text-lg placeholder-slate-500 focus:outline-none py-4 pr-4"
+            className="theme-input flex-1 bg-transparent border-none text-lg focus:outline-none py-4 pr-4"
           />
         </div>
       </motion.form>

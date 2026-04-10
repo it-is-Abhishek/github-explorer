@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import SearchSection from './components/SearchSection';
@@ -10,6 +11,7 @@ import useDebounce from './hooks/useDebounce';
 import { searchUsers, getUserDetails, getUserRepos } from './services/githubApi';
 
 const GITHUB_SEARCH_LIMIT = 1000;
+const THEME_STORAGE_KEY = 'github-explorer-theme';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -17,6 +19,7 @@ function App() {
 
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [totalUsers, setTotalUsers] = useState(0);
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -25,8 +28,19 @@ function App() {
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const [repoData, setRepoData] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme) return savedTheme;
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
   
   const [hasSearched, setHasSearched] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
 
   // Effect for debounced search
   useEffect(() => {
@@ -76,7 +90,7 @@ function App() {
   };
 
   const handleSelectUser = async (userSummary) => {
-    // Clear search dropdown by resetting query to their login or closing
+    setLastSearchQuery(query);
     setQuery(userSummary.login);
     setSearchResults([]); 
     setIsProfileLoading(true);
@@ -98,12 +112,24 @@ function App() {
     }
   };
 
+  const handleBackToResults = () => {
+    setUserData(null);
+    setRepoData(null);
+    setIsProfileLoading(false);
+    setSearchError(null);
+    setQuery(lastSearchQuery);
+    setHasSearched(Boolean(lastSearchQuery.trim()));
+  };
+
   const accessibleTotalUsers = Math.min(totalUsers, GITHUB_SEARCH_LIMIT);
   const hasMoreUsers = searchResults.length < accessibleTotalUsers;
 
   return (
     <div className="min-h-screen mb-20 relative">
-      <Navbar />
+      <Navbar
+        theme={theme}
+        onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))}
+      />
       
       {!hasSearched && !userData && !isProfileLoading ? (
         <HeroSection />
@@ -126,7 +152,7 @@ function App() {
 
       {searchError && !userData && !isProfileLoading && (
         <div className="max-w-3xl mx-auto px-4 mt-8 relative z-10">
-           <div className="glass-panel p-4 text-center text-red-400 font-medium minecraft-corners">
+           <div className="glass-panel p-4 text-center theme-error-text font-medium minecraft-corners">
              {searchError}
            </div>
         </div>
@@ -147,6 +173,16 @@ function App() {
 
       {(userData || isProfileLoading) && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 relative z-10 transition-all duration-500">
+          <div className="mb-6">
+            <button
+              type="button"
+              onClick={handleBackToResults}
+              className="back-button"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to search results</span>
+            </button>
+          </div>
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar / User Profile */}
             <div className="w-full lg:w-1/3 xl:w-1/4 flex flex-col items-center lg:items-start shrink-0">

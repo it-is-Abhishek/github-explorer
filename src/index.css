@@ -8,34 +8,188 @@
   --color-brand-glass: rgba(30, 41, 59, 0.7);
 }
 
+:root,
+[data-theme='dark'] {
+  --theme-bg: #020617;
+  --theme-text: #f8fafc;
+  --theme-text-muted: #94a3b8;
+  --theme-text-soft: #cbd5e1;
+  --theme-panel: rgba(30, 41, 59, 0.4);
+  --theme-panel-heavy: rgba(15, 23, 42, 0.7);
+  --theme-border: rgba(255, 255, 255, 0.1);
+  --theme-border-strong: rgba(255, 255, 255, 0.16);
+  --theme-card: rgba(15, 23, 42, 0.5);
+  --theme-card-soft: rgba(15, 23, 42, 0.35);
+  --theme-select: #0f172a;
+  --theme-shadow: rgba(2, 6, 23, 0.55);
+  --theme-scroll-track: #020617;
+  --theme-scroll-thumb: #334155;
+  --theme-error: #f87171;
+  --theme-hero-start: #ffffff;
+  --theme-hero-mid: #e2e8f0;
+  --theme-hero-end: #94a3b8;
+  --theme-page-radial-1: rgba(139, 92, 246, 0.15);
+  --theme-page-radial-2: rgba(14, 165, 233, 0.15);
+}
+
+[data-theme='light'] {
+  --theme-bg: #eef4ff;
+  --theme-text: #0f172a;
+  --theme-text-muted: #475569;
+  --theme-text-soft: #334155;
+  --theme-panel: rgba(255, 255, 255, 0.7);
+  --theme-panel-heavy: rgba(255, 255, 255, 0.82);
+  --theme-border: rgba(15, 23, 42, 0.1);
+  --theme-border-strong: rgba(15, 23, 42, 0.18);
+  --theme-card: rgba(255, 255, 255, 0.82);
+  --theme-card-soft: rgba(241, 245, 249, 0.92);
+  --theme-select: #ffffff;
+  --theme-shadow: rgba(148, 163, 184, 0.32);
+  --theme-scroll-track: #e2e8f0;
+  --theme-scroll-thumb: #94a3b8;
+  --theme-error: #dc2626;
+  --theme-hero-start: #0f172a;
+  --theme-hero-mid: #1e293b;
+  --theme-hero-end: #475569;
+  --theme-page-radial-1: rgba(139, 92, 246, 0.08);
+  --theme-page-radial-2: rgba(14, 165, 233, 0.12);
+}
+
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
+
   body {
-    background-color: var(--color-brand-dark-base);
-    color: #e2e8f0;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    background-image: radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
-      radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15), transparent 25%);
+    background-image: radial-gradient(circle at 15% 50%, var(--theme-page-radial-1), transparent 25%),
+      radial-gradient(circle at 85% 30%, var(--theme-page-radial-2), transparent 25%);
     background-attachment: fixed;
     min-height: 100vh;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    background-color: rgba(30, 41, 59, 0.4);
+    background-color: var(--theme-panel);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--theme-border);
     position: relative;
     border-radius: 0.75rem;
   }
   
   .glass-panel-heavy {
-    background-color: rgba(15, 23, 42, 0.7);
+    background-color: var(--theme-panel-heavy);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--theme-border-strong);
+  }
+
+  .theme-text-primary {
+    color: var(--theme-text);
+  }
+
+  .theme-text-muted {
+    color: var(--theme-text-muted);
+  }
+
+  .theme-text-soft {
+    color: var(--theme-text-soft);
+  }
+
+  .theme-panel-subtle {
+    background-color: var(--theme-card-soft);
+    border-color: var(--theme-border);
+  }
+
+  .theme-panel-solid {
+    background-color: var(--theme-card);
+    border-color: var(--theme-border);
+  }
+
+  .theme-toggle-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 0.75rem;
+    background: var(--theme-card);
+    border: 1px solid var(--theme-border-strong);
+    box-shadow: 0 10px 30px -18px var(--theme-shadow);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border-radius: 0.8rem;
+    background: var(--theme-card);
+    color: var(--theme-text);
+    border: 1px solid var(--theme-border-strong);
+    box-shadow: 0 10px 30px -18px var(--theme-shadow);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .back-button:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-brand-neon-blue);
+  }
+
+  .theme-input {
+    color: var(--theme-text);
+  }
+
+  .theme-input::placeholder {
+    color: var(--theme-text-muted);
+  }
+
+  .theme-select {
+    color: var(--theme-text);
+  }
+
+  .theme-select option {
+    background: var(--theme-select);
+    color: var(--theme-text);
+  }
+
+  .theme-badge {
+    background: var(--theme-card);
+    color: var(--theme-text-muted);
+    border: 1px solid var(--theme-border);
+  }
+
+  .theme-card-border {
+    border-color: var(--theme-border);
+  }
+
+  .theme-divider {
+    border-color: var(--theme-border);
+  }
+
+  .theme-error-text {
+    color: var(--theme-error);
+  }
+
+  .theme-hero-title {
+    background-image: linear-gradient(
+      to right,
+      var(--theme-hero-start),
+      var(--theme-hero-mid),
+      var(--theme-hero-end)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   
   /* Voxel / Minecraft style block effects */
@@ -57,18 +211,18 @@
   }
   
   .voxel-shadow {
-    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 4px 0 var(--theme-shadow);
     transition: all 0.2s ease;
   }
   
   .voxel-shadow:hover {
     transform: translate(-4px, -4px);
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6), 8px 8px 0 var(--color-brand-neon-blue);
+    box-shadow: 6px 6px 0 var(--theme-shadow), 8px 8px 0 var(--color-brand-neon-blue);
   }
 
   .voxel-shadow-purple:hover {
     transform: translate(-4px, -4px);
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6), 8px 8px 0 var(--color-brand-neon-purple);
+    box-shadow: 6px 6px 0 var(--theme-shadow), 8px 8px 0 var(--color-brand-neon-purple);
   }
   
   .animate-float {
@@ -96,7 +250,7 @@
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, rgba(30,41,59,0.7) 25%, rgba(71,85,105,0.7) 50%, rgba(30,41,59,0.7) 75%);
+  background: linear-gradient(90deg, var(--theme-card) 25%, var(--theme-card-soft) 50%, var(--theme-card) 75%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
 }
@@ -106,10 +260,10 @@
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-dark-base); 
+  background: var(--theme-scroll-track); 
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155; 
+  background: var(--theme-scroll-thumb); 
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
